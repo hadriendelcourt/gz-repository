@@ -20,7 +20,7 @@ SELECT
   ,CAST(p.purchSE_PRICE AS FLOAT64) AS purchase_price
 	,ROUND(s.quantity*CAST(p.purchSE_PRICE AS FLOAT64),2) AS purchase_cost
 	-- margin --
-	,{{ margin('s.revenue', 's.quantity*CAST(p.purchSE_PRICE AS FLOAT64)') }} AS margin
+	,ROUND({{ margin('s.revenue', 's.quantity*CAST(p.purchSE_PRICE AS FLOAT64)') }},2) AS margin
     -- product margin percent --
     ,{{ margin_percent('s.revenue', 's.quantity*CAST(p.purchSE_PRICE AS FLOAT64)') }} AS product_margin_percent
 FROM sales s
