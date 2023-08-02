@@ -36,4 +36,19 @@ models:
 
           - name: margin
             description : the product margin. Subtraction of the turnover and the purchase_cost
+    - name: orders
+      description: checking the accuracy of our data set orders.
+      columns: 
+          - name: orders_id
+            description: testing orders_id as a primary key
+            tests:
+              - unique
+              - not_null
+          - name: operational_margin
+            description: testing that we don't have null values
+            tests:
+              - not_null
+                  
+                  
+
 
