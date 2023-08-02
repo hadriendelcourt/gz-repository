@@ -67,6 +67,7 @@ models:
               - not_null
                   
     - name: finance
+      description: testing that our date is indeed unique and not null for the financial data
       columns:
           - name: date_date
             tests:
