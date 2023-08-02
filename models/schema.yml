@@ -66,6 +66,12 @@ models:
             tests:
               - not_null
                   
-            
+    - name: finance
+      columns:
+          - name: date_date
+            tests:
+              - unique
+              - not_null
+                
 
 
