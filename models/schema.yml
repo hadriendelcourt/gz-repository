@@ -49,6 +49,23 @@ models:
             tests:
               - not_null
                   
+    - name: int_campaign
+      description: testing the accuracy of our data set with a primary key on campaign_name + paid_source => a campaig name can have several paid source
+      tests:
+        - unique:
+            column_name: "(campaign_name || '-' || paid_source)"
+      columns: 
+          - name: campaign_cost 
+            description: checking that it is not null
+            tests:
+              - not_null
+          - name: campaign_name
+            tests:
+              - not_null
+          - name: paid_source
+            tests:
+              - not_null
                   
+            
 
 
