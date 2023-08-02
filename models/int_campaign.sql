@@ -1,46 +1,30 @@
-SELECT 
-date_date
-, paid_source
-, campaign_key
-, campaign_name
-, ads_cost
-, impression
-, click
-FROM {{ref("stg_adwords")}}
+{{ config( 
+    materialized='table' 
+    ,partition_by={ 
+        "field":"number" 
+        ,"data_type":"INT64" 
+        ,"range": {
+            "start": 0,
+            "end": 1000,
+            "interval": 1
+        }
+    }
+        )}}
 
+WITH union_ads AS (
+SELECT * FROM {{ref("stg_adwords")}}
 UNION ALL
-
-SELECT 
-date_date
-, paid_source
-, campaign_key
-, campaign_name
-, ads_cost
-, impression
-, click
-FROM {{ref("stg_bing")}}
-
+SELECT * FROM {{ref("stg_bing")}}
 UNION ALL
-
-SELECT 
-date_date
-, paid_source
-, campaign_key
-, campaign_name
-, ads_cost
-, impression
-, click
-FROM {{ref("stg_criteo")}}
-
+SELECT * FROM {{ref("stg_criteo")}}
 UNION ALL
+SELECT * FROM {{ref("stg_facebook")}}
+)
 
 SELECT 
-date_date
+campaign_name
 , paid_source
-, campaign_key
-, campaign_name
-, ads_cost
-, impression
-, click
-FROM {{ref("stg_facebook")}}
-
+, SUM(ads_cost) AS campaign_cost
+, ROW_NUMBER() OVER(ORDER BY campaign_name) AS number
+FROM union_ads
+GROUP BY campaign_name, paid_source
